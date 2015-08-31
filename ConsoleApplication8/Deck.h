@@ -138,17 +138,17 @@ public:
 
 	// --- Construtors / Destructor ---------------
 	Deck() : _quantity(0), _nameLength(0)  {
-		_border[0] = 185;
-		_border[1] = 186;
-		_border[2] = 187;
-		_border[3] = 188;
-		_border[4] = 200;
-		_border[5] = 201;
-		_border[6] = 202;
-		_border[7] = 203;
-		_border[8] = 204;
-		_border[9] = 205;
-		_border[10] = 206;
+		_border[0] = (char)185; // ╣
+		_border[1] = (char)186; // ║
+		_border[2] = (char)187; // ╗
+		_border[3] = (char)188; // ╝
+		_border[4] = (char)200; // ╚
+		_border[5] = (char)201; // ╔
+		_border[6] = (char)202; // ╩
+		_border[7] = (char)203; // ╦
+		_border[8] = (char)204; // ╠
+		_border[9] = (char)205; // ═
+		_border[10] = (char)206; // ╬
 	}
 	~Deck() {
 		list<Decklist*>::iterator it;
@@ -174,15 +174,16 @@ public:
 		for (int i = 0; i < _nameLength; i++)	{
 			cout << _border[9];
 		}
-		// ═╦══════╦═══════╗
+		// ═╦══════╦═══════╦═══╗
 		cout << _border[9] << _border[7] << _border[9] << _border[9] << _border[9] << _border[9] << _border[9]
 			<< _border[9] << _border[7] << _border[9] << _border[9] << _border[9]
-			<< _border[9] << _border[9] << _border[9] << _border[9] << _border[2] << endl;
+			<< _border[9] << _border[9] << _border[9] << _border[9] 
+			<< _border[7] << _border[9] << _border[9] << _border[9] << _border[2] << endl;
 
-		// ║ LP ║ Name ║ Cost ║ AT/HP ║
+		// ║ LP ║ Name ║ Cost ║ AT/HP ║ N ║
 		cout << _border[1] << ' ' << "LP" << ' ' << _border[1] << ' ' << setw(_nameLength) << "Name" << ' '
 			<< _border[1] << ' ' << "Cost" << ' ' << _border[1]
-			<< " At/Hp " << _border[1] << endl;
+			<< " At/Hp " << _border[1] << ' ' << "N" << ' ' << _border[1] << endl;
 		
 		// ╠════╬═
 		cout << _border[8] << _border[9] << _border[9] << _border[9] << _border[9]
@@ -191,29 +192,33 @@ public:
 		for (int i = 0; i < _nameLength; i++)	{
 			cout << _border[9];
 		}
-		// ═╬══════╬═══════╣
+		// ═╬══════╬═══════╬═══╣
 		cout << _border[9] << _border[10] << _border[9] << _border[9] << _border[9] << _border[9] << _border[9]
 			<< _border[9] << _border[10] << _border[9] << _border[9] << _border[9]
-			<< _border[9] << _border[9] << _border[9] << _border[9] << _border[0] << endl;
+			<< _border[9] << _border[9] << _border[9] << _border[9] << _border[10] << _border[9]
+			<< _border[9] << _border[9] << _border[0] << endl;
 
 
-		// ║ $LP ║ $NAME ║ $COST ║ $AT/HP ║
+		// ║ $LP ║ $NAME ║ $COST ║ $AT/HP ║   ║
 		list<Decklist*>::iterator it = _l.begin();
 		int i = 0;
 		for (; it != _l.end(); ++it) {
 			i++;
 			Minion* m = dynamic_cast<Minion*>((*it)->GetCard());
+
+			// - if Minion / Card --- writing attack and healthpoint
 			if (m == 0) {
 				cout << _border[1] << ' ' << setw(2) << i << ' ' << _border[1] << ' ' << setw(_nameLength) 
 					<< (*it)->GetCard()->GetName() << ' '
 					<< _border[1] << ' ' << setw(4) << (*it)->GetCard()->GetCost() << ' ' << _border[1]
-					<< "       " << _border[1] << endl;
+					<< "       " << _border[1] << ' ' << (*it)->GetQuantity() << ' ' << _border[1] << endl;
 			}
 			else {
 				cout << _border[1] << ' ' << setw(2) << i << ' ' << _border[1] << ' ' 
 					<< setw(_nameLength) << m->GetName() << ' '	<< _border[1] << ' ' << setw(4) 
 					<< m->GetCost() << ' ' << _border[1] << ' ' << setw(2) << m->GetAttack() 
-					<< '/' << setw(2) << m->GetHealth() << ' ' << _border[1] << endl;
+					<< '/' << setw(2) << m->GetHealth() << ' ' << _border[1] << ' ' << (*it)->GetQuantity() 
+					<< ' ' << _border[1] << endl;
 			}
 		}
 
@@ -224,10 +229,11 @@ public:
 		for (int i = 0; i < _nameLength; i++)	{
 			cout << _border[9];
 		}
-		// ═╩══════╩═══════╝
+		// ═╩══════╩═══════╩═══╝
 		cout << _border[9] << _border[6] << _border[9] << _border[9] << _border[9] << _border[9] << _border[9]
 			<< _border[9] << _border[6] << _border[9] << _border[9] << _border[9]
-			<< _border[9] << _border[9] << _border[9] << _border[9] << _border[3] << endl;;
+			<< _border[9] << _border[9] << _border[9] << _border[9] << _border[6] << _border[9] 
+			<< _border[9] << _border[9] << _border[3] << endl;
 
 		cout << endl;
 
