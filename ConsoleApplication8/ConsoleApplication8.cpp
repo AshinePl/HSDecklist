@@ -7,6 +7,8 @@
 #include <string>
 #include <iomanip>
 #include <list>
+#include <libpq-fs.h>
+#pragma comment(lib, "libpq.lib")
 
 #include "Deck.h"
 
@@ -14,14 +16,17 @@ using namespace std;
 
 int main()
 {
-	///*
+	PGConn* c;
+	
+	//  /*
 	Deck deck;
 	deck.Add(new Card("Andrzej", 3));
 	deck.Add(new Minion("Tomek", 6, 3, 8));
-	deck.Add(new Card("Maciek", 3));
+	deck.Add(new Card("Maciek", 3),1);
 	deck.Add(new Card("Aleksandra", 3));
 	deck.Add(new Minion("Iza", 8, 8, 8));
-	deck.Add(new Card("Pawe³", 3));
+	deck.Add(new Card("Pawel", 3),1);
+	deck.Add(new Minion("Nabuchodonozor 2000", 10, 1, 10), 1);
 
 
 	deck.Show();
