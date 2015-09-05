@@ -16,9 +16,7 @@ using namespace std;
 
 int main()
 {
-	PGConn* c;
-	
-	//  /*
+	//  /* for testing purposes
 	Deck deck;
 	deck.Add(new Card("Andrzej", 3));
 	deck.Add(new Minion("Tomek", 6, 3, 8));
@@ -28,8 +26,16 @@ int main()
 	deck.Add(new Card("Pawel", 3),1);
 	deck.Add(new Minion("Nabuchodonozor 2000", 10, 1, 10), 1);
 
+	deck.UpdateLength();
+	bool _running = true;
+	do
+	{
+		deck.Show();
+		_running = deck.Menu();
 
-	deck.Show();
+
+		system("cls");
+	} while (_running);
 	//*/
 
 	/*

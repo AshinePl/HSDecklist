@@ -169,57 +169,57 @@ public:
 			_nameLength = newLen;
 		_l.push_back(new Decklist(c, q));
 	}
-
-	void Show(){
+	void WriteHeader() {
 		// ╔════╦═
-		cout << _border[5] << _border[9] << _border[9] << _border[9] << _border[9]
+		std::cout << _border[5] << _border[9] << _border[9] << _border[9] << _border[9]
 			<< _border[7] << _border[9];
 		// ═══════...══════════
 		for (int i = 0; i < _nameLength; i++)	{
-			cout << _border[9];
+			std::cout << _border[9];
 		}
 		// ═╦══════╦═══════╦═══╗
-		cout << _border[9] << _border[7] << _border[9] << _border[9] << _border[9] << _border[9] << _border[9]
+		std::cout << _border[9] << _border[7] << _border[9] << _border[9] << _border[9] << _border[9] << _border[9]
 			<< _border[9] << _border[7] << _border[9] << _border[9] << _border[9]
 			<< _border[9] << _border[9] << _border[9] << _border[9]
 			<< _border[7] << _border[9] << _border[9] << _border[9] << _border[2] << endl;
 
 		// ║ LP ║ Name ║ Cost ║ AT/HP ║ N ║
-		cout << _border[1] << ' ' << "ID" << ' ' << _border[1] << ' ' << setw(_nameLength) << "Name" << ' '
+		std::cout << _border[1] << ' ' << "ID" << ' ' << _border[1] << ' ' << setw(_nameLength) << "Name" << ' '
 			<< _border[1] << ' ' << "Cost" << ' ' << _border[1]
 			<< " At/Hp " << _border[1] << ' ' << "N" << ' ' << _border[1] << endl;
 
 		// ╠════╬═
-		cout << _border[8] << _border[9] << _border[9] << _border[9] << _border[9]
+		std::cout << _border[8] << _border[9] << _border[9] << _border[9] << _border[9]
 			<< _border[10] << _border[9];
 		// ═══════...══════════
 		for (int i = 0; i < _nameLength; i++)	{
-			cout << _border[9];
+			std::cout << _border[9];
 		}
 		// ═╬══════╬═══════╬═══╣
-		cout << _border[9] << _border[10] << _border[9] << _border[9] << _border[9] << _border[9] << _border[9]
+		std::cout << _border[9] << _border[10] << _border[9] << _border[9] << _border[9] << _border[9] << _border[9]
 			<< _border[9] << _border[10] << _border[9] << _border[9] << _border[9]
 			<< _border[9] << _border[9] << _border[9] << _border[9] << _border[10] << _border[9]
 			<< _border[9] << _border[9] << _border[0] << endl;
-
+	}
+	void WriteCards() {
 
 		// ║ $LP ║ $NAME ║ $COST ║ $AT/HP ║   ║
 		list<Decklist*>::iterator it = _l.begin();
 		int i = 0;
 		for (; it != _l.end(); ++it) {
 			i++;
-			
+
 			if ((*it)->GetQuantity() > 0) {
 				Minion* m = dynamic_cast<Minion*>((*it)->GetCard());
 				// - if Minion / Card --- writing attack and healthpoint
 				if (m == 0) {
-					cout << _border[1] << ' ' << setw(2) << i << ' ' << _border[1] << ' ' << setw(_nameLength)
+					std::cout << _border[1] << ' ' << setw(2) << i << ' ' << _border[1] << ' ' << setw(_nameLength)
 						<< (*it)->GetCard()->GetName() << ' '
 						<< _border[1] << ' ' << setw(4) << (*it)->GetCard()->GetCost() << ' ' << _border[1]
 						<< "       " << _border[1] << ' ' << (*it)->GetQuantity() << ' ' << _border[1] << endl;
 				}
 				else {
-					cout << _border[1] << ' ' << setw(2) << i << ' ' << _border[1] << ' '
+					std::cout << _border[1] << ' ' << setw(2) << i << ' ' << _border[1] << ' '
 						<< setw(_nameLength) << m->GetName() << ' ' << _border[1] << ' ' << setw(4)
 						<< m->GetCost() << ' ' << _border[1] << ' ' << setw(2) << m->GetAttack()
 						<< '/' << setw(2) << m->GetHealth() << ' ' << _border[1] << ' ' << (*it)->GetQuantity()
@@ -227,25 +227,33 @@ public:
 				}
 			}
 		} // end of for loop
+	}
+	void WriteFooter() {
 
 		// ╚════╩═
-		cout << _border[4] << _border[9] << _border[9] << _border[9] << _border[9]
+		std::cout << _border[4] << _border[9] << _border[9] << _border[9] << _border[9]
 			<< _border[6] << _border[9];
 		// ═══════...══════════
 		for (int i = 0; i < _nameLength; i++)	{
-			cout << _border[9];
+			std::cout << _border[9];
 		}
 		// ═╩══════╩═══════╩═══╝
-		cout << _border[9] << _border[6] << _border[9] << _border[9] << _border[9] << _border[9] << _border[9]
+		std::cout << _border[9] << _border[6] << _border[9] << _border[9] << _border[9] << _border[9] << _border[9]
 			<< _border[9] << _border[6] << _border[9] << _border[9] << _border[9]
 			<< _border[9] << _border[9] << _border[9] << _border[9] << _border[6] << _border[9]
 			<< _border[9] << _border[9] << _border[3] << endl;
+	}
 
-		cout << endl;
+	void Show(){
+		WriteHeader();
+		WriteCards();
+		WriteFooter();
+
+		std::cout << endl;
 	}
 
 	void UpdateLength() { // when quantity of card is 0, then don't count it in length of longest string
-		int newlen = 0;
+		unsigned int newlen = 0;
 		list<Decklist*>::iterator it = _l.begin();
 		for (; it != _l.end(); ++it) {
 			if ((**it).GetQuantity() > 0 && newlen < strlen((**it).GetCard()->GetName().c_str())) {	
@@ -266,33 +274,36 @@ public:
 	}
 	bool Menu()	{
 		char c;
-		cout << "A - Add Cards to Deck" << endl;
-		cout << "D - Permamently remove Card from Deck" << endl;
-		cout << "S - Save Deck to file" << endl;
-		cout << "L - Load Deck from file" << endl;
-		cout << "R - Restart Deck" << endl;
-		cout << "N - New Deck" << endl;
-		cout << "C - Draw Card" << endl;
-		cout << ">>";
+		std::cout << "A - Add Cards to Deck" << endl;
+		std::cout << "D - Permamently remove Card from Deck" << endl;
+		std::cout << "S - Save Deck to file" << endl;
+		std::cout << "L - Load Deck from file" << endl;
+		std::cout << "R - Restart Deck" << endl;
+		std::cout << "N - New Deck" << endl;
+		std::cout << "C - Draw Card" << endl;
+		std::cout << "0 - Quit" << endl;
+		std::cout << "> ";
+
 		cin >> c; // choice of user
-	
-		// TODO: Switch
+		if (c == '0') return false;
+		
+		switch (c){
+			// TODO:
+		}
 		return true;
 	}
 };
 //---------------------------------------------------------------------------------------------------
-
-
 
 // Prototypes
 //--- Printing Card with given Name Width --------------
 void PrintCard(Card* c, int nameW){
 	Minion* m = dynamic_cast<Minion*>(c);
 	if (m == 0) {
-		cout << setw(nameW) << c->GetName() << ' ' << c->GetCost();
+		std::cout << setw(nameW) << c->GetName() << ' ' << c->GetCost();
 	}
 	else {
-		cout << setw(nameW) << m->GetName() << ' ' << m->GetCost()
+		std::cout << setw(nameW) << m->GetName() << ' ' << m->GetCost()
 			<< setw(2) << m->GetAttack() << '/' << setw(2) << m->GetHealth();
 	}
 }
