@@ -7,8 +7,14 @@
 #include <string>
 #include <iomanip>
 #include <list>
-#include <libpq-fs.h>
+
+#include <libpq-fe.h>
 #pragma comment(lib, "libpq.lib")
+
+// NEED:
+// libpq.dll
+// intl.dll
+// libeay32.dll
 
 #include "Deck.h"
 
@@ -16,7 +22,16 @@ using namespace std;
 
 int main()
 {
-	//  /* for testing purposes
+	PGconn* conn = PQconnectdb("dbname=postgres user=postgres password=1234");
+
+	if (PQstatus(conn) == CONNECTION_BAD)	{
+		cout << "ERROR: " << PQerrorMessage(conn) << endl;
+	}
+	else	{
+		cout << "Connection OK" << endl;
+	}
+
+	/* for testing purposes
 	Deck deck;
 	deck.Add(new Card("Andrzej", 3));
 	deck.Add(new Minion("Tomek", 6, 3, 8));
@@ -44,6 +59,8 @@ int main()
 	printf("%d: %c\n", i, i);
 	}
 	//*/
+
+	PQfinish(conn);
 	system("pause");
 
 	return 0;
